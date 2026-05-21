@@ -59,7 +59,7 @@ exports.createEventType = async (req, res, next) => {
 
 exports.updateEventType = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const id = parseInt(req.params.id, 10);
     const data = req.body;
     const eventType = await prisma.eventType.update({
       where: { id },
@@ -73,7 +73,7 @@ exports.updateEventType = async (req, res, next) => {
 
 exports.deleteEventType = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const id = parseInt(req.params.id, 10);
     await prisma.eventType.delete({ where: { id } });
     res.json({ success: true });
   } catch (error) {

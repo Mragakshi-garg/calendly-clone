@@ -13,7 +13,7 @@ exports.getBookings = async (req, res, next) => {
       where.startTime = { lt: now };
     }
 
-    const bookings = await prisma.booking.findMany({
+    const bookings = await prisma.meeting.findMany({
       where,
       orderBy: { startTime: 'asc' },
       include: { eventType: true }
@@ -36,10 +36,10 @@ exports.createBooking = async (req, res, next) => {
     const end = addMinutes(start, eventType.duration);
 
     // Conflict check for all bookings belonging to the same user
-    const conflictingBooking = await prisma.booking.findFirst({
+    const conflictingBooking = await prisma.meeting.findFirst({
       where: {
         eventType: { userId: eventType.userId },
-        status: 'CONFIRMED',
+        status: 'UPCOMING',
         OR: [
           { startTime: { lt: end, gte: start } },
           { endTime: { gt: start, lte: end } },
@@ -52,14 +52,15 @@ exports.createBooking = async (req, res, next) => {
       return res.status(409).json({ error: 'Time slot is not available' });
     }
 
-    const booking = await prisma.booking.create({
+    const booking = await prisma.meeting.create({
       data: {
+        userId: eventType.userId,
         eventTypeId,
         inviteeName,
         inviteeEmail,
         startTime: start,
         endTime: end,
-        status: 'CONFIRMED'
+        status: 'UPCOMING'
       }
     });
 
@@ -71,8 +72,8 @@ exports.createBooking = async (req, res, next) => {
 
 exports.cancelBooking = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const booking = await prisma.booking.update({
+    const id = parseInt(req.params.id, 10);
+    const booking = await prisma.meeting.update({
       where: { id },
       data: { status: 'CANCELLED' }
     });
@@ -116,10 +117,10 @@ exports.getAvailableSlots = async (req, res, next) => {
     const dayEnd = new Date(dayStart);
     dayEnd.setHours(endHour, endMin, 0, 0);
 
-    const existingBookings = await prisma.booking.findMany({
+    const existingBookings = await prisma.meeting.findMany({
       where: {
         eventType: { userId: eventType.userId },
-        status: 'CONFIRMED',
+        status: 'UPCOMING',
         startTime: { gte: startOfDay(targetDate), lt: endOfDay(targetDate) }
       }
     });
@@ -142,7 +143,7 @@ exports.getAvailableSlots = async (req, res, next) => {
         slots.push(format(currentSlot, "HH:mm"));
       }
       
-      currentSlot = addMinutes(currentSlot, eventType.duration); // or we could do 15min increments, but let's stick to duration increments
+      currentSlot = addMinutes(currentSlot, eventType.duration);
     }
 
     res.json(slots);

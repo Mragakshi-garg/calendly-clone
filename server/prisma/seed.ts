@@ -64,39 +64,42 @@ async function main() {
   const tomorrow = new Date(now);
   tomorrow.setDate(tomorrow.getDate() + 1);
   
-  await prisma.booking.create({
+  await prisma.meeting.create({
     data: {
+      userId: user.id,
       eventTypeId: event15.id,
       inviteeName: 'Alice Smith',
       inviteeEmail: 'alice@example.com',
-      startTime: new Date(tomorrow.setHours(10, 0, 0, 0)),
-      endTime: new Date(tomorrow.setHours(10, 15, 0, 0)),
-      status: 'CONFIRMED',
+      startTime: new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 10, 0, 0),
+      endTime: new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 10, 15, 0),
+      status: 'UPCOMING',
     },
   });
 
-  await prisma.booking.create({
+  await prisma.meeting.create({
     data: {
+      userId: user.id,
       eventTypeId: event30.id,
       inviteeName: 'Bob Johnson',
       inviteeEmail: 'bob@example.com',
-      startTime: new Date(tomorrow.setHours(11, 0, 0, 0)),
-      endTime: new Date(tomorrow.setHours(11, 30, 0, 0)),
-      status: 'CONFIRMED',
+      startTime: new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 11, 0, 0),
+      endTime: new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), 11, 30, 0),
+      status: 'UPCOMING',
     },
   });
 
   const dayAfter = new Date(now);
   dayAfter.setDate(dayAfter.getDate() + 2);
 
-  await prisma.booking.create({
+  await prisma.meeting.create({
     data: {
+      userId: user.id,
       eventTypeId: event60.id,
       inviteeName: 'Charlie Brown',
       inviteeEmail: 'charlie@example.com',
-      startTime: new Date(dayAfter.setHours(14, 0, 0, 0)),
-      endTime: new Date(dayAfter.setHours(15, 0, 0, 0)),
-      status: 'CONFIRMED',
+      startTime: new Date(dayAfter.getFullYear(), dayAfter.getMonth(), dayAfter.getDate(), 14, 0, 0),
+      endTime: new Date(dayAfter.getFullYear(), dayAfter.getMonth(), dayAfter.getDate(), 15, 0, 0),
+      status: 'UPCOMING',
     },
   });
 
@@ -104,25 +107,27 @@ async function main() {
   const yesterday = new Date(now);
   yesterday.setDate(yesterday.getDate() - 1);
 
-  await prisma.booking.create({
+  await prisma.meeting.create({
     data: {
+      userId: user.id,
       eventTypeId: event15.id,
       inviteeName: 'Diana Prince',
       inviteeEmail: 'diana@example.com',
-      startTime: new Date(yesterday.setHours(9, 0, 0, 0)),
-      endTime: new Date(yesterday.setHours(9, 15, 0, 0)),
-      status: 'CONFIRMED',
+      startTime: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 9, 0, 0),
+      endTime: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 9, 15, 0),
+      status: 'UPCOMING',
     },
   });
 
-  await prisma.booking.create({
+  await prisma.meeting.create({
     data: {
+      userId: user.id,
       eventTypeId: event30.id,
       inviteeName: 'Eve Adams',
       inviteeEmail: 'eve@example.com',
-      startTime: new Date(yesterday.setHours(16, 0, 0, 0)),
-      endTime: new Date(yesterday.setHours(16, 30, 0, 0)),
-      status: 'CONFIRMED',
+      startTime: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 16, 0, 0),
+      endTime: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 16, 30, 0),
+      status: 'UPCOMING',
     },
   });
 

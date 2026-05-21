@@ -20,7 +20,7 @@ export default function MeetingsPage() {
     try {
       const r = await axios.get(`${API}?status=${tab}`);
       // Only show CONFIRMED for upcoming
-      setMeetings(r.data.filter(m => tab === 'past' || m.status === 'CONFIRMED'));
+      setMeetings(r.data.filter(m => tab === 'past' || m.status === 'UPCOMING'));
     } catch { toast.error('Failed to load meetings'); }
     finally { setLoading(false); }
   }
@@ -93,9 +93,9 @@ export default function MeetingsPage() {
               {/* Status + Cancel */}
               <div className="flex flex-col items-end gap-2 shrink-0">
                 <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                  m.status === 'CONFIRMED' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'
+                  m.status === 'UPCOMING' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'
                 }`}>{m.status}</span>
-                {tab === 'upcoming' && m.status === 'CONFIRMED' && (
+                {tab === 'upcoming' && m.status === 'UPCOMING' && (
                   <button onClick={() => setCancelTarget(m)}
                     className="text-xs text-red-500 hover:text-red-700 font-medium hover:underline">
                     Cancel
