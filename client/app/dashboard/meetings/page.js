@@ -21,7 +21,7 @@ export default function MeetingsPage() {
       const r = await axios.get(`${API}?status=${tab}`);
       const data = Array.isArray(r.data) ? r.data : [];
       // Filter: upcoming tab shows only UPCOMING, past tab shows all
-      setMeetings(data.filter(m => tab === 'past' || m.status === 'UPCOMING'));
+      setMeetings(data);
     } catch (err) {
       console.error('Failed to load meetings:', err);
       toast.error('Failed to load meetings');
