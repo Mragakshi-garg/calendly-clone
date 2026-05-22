@@ -119,7 +119,7 @@ exports.getAvailableSlots = async (req, res, next) => {
 
     const existingBookings = await prisma.meeting.findMany({
       where: {
-        eventType: { userId: eventType.userId },
+         userId: eventType.userId ,
         status: 'UPCOMING',
         startTime: { gte: startOfDay(targetDate), lt: endOfDay(targetDate) }
       }
