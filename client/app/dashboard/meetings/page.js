@@ -19,9 +19,13 @@ export default function MeetingsPage() {
     setLoading(true);
     try {
       const r = await axios.get(`${API}?status=${tab}`);
-      // Only show CONFIRMED for upcoming
-      setMeetings(r.data);
-    } catch { toast.error('Failed to load meetings'); }
+      const data = Array.isArray(r.data) ? r.data : [];
+      // Filter: upcoming tab shows only UPCOMING, past tab shows all
+      setMeetings(data.filter(m => tab === 'past' || m.status === 'UPCOMING'));
+    } catch (err) {
+      console.error('Failed to load meetings:', err);
+      toast.error('Failed to load meetings');
+    }
     finally { setLoading(false); }
   }
 
@@ -75,17 +79,17 @@ export default function MeetingsPage() {
                 </div>
                 {/* Details */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-semibold text-gray-900">{m.eventType?.name}</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">{m.eventType?.name || 'Meeting'}</h3>
                   <p className="text-sm text-gray-500 mt-0.5">
                     {format(new Date(m.startTime), 'h:mm a')} – {format(new Date(m.endTime), 'h:mm a')}
                     &nbsp;·&nbsp;{format(new Date(m.startTime), 'EEEE, MMMM d, yyyy')}
                   </p>
                   <div className="flex items-center gap-2 mt-2">
                     <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600">
-                      {m.inviteeName[0].toUpperCase()}
+                      {m.inviteeName ? m.inviteeName[0].toUpperCase() : '?'}
                     </div>
-                    <p className="text-sm text-gray-600">{m.inviteeName}
-                      <span className="text-gray-400"> · {m.inviteeEmail}</span>
+                    <p className="text-sm text-gray-600">{m.inviteeName || 'Unknown'}
+                      <span className="text-gray-400"> · {m.inviteeEmail || ''}</span>
                     </p>
                   </div>
                 </div>
