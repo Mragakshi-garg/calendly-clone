@@ -6,8 +6,8 @@ async function main() {
   // 1 default user
   const user = await prisma.user.create({
     data: {
-      name: 'John Doe',
-      email: 'john.doe@example.com',
+      name: 'Mragakshi Garg',
+      email: 'mragakshi@schedulr.com',
       timezone: 'America/New_York',
     },
   });

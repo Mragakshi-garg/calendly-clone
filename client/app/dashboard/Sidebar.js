@@ -76,10 +76,10 @@ export default function Sidebar() {
       {/* User */}
       <div className="px-4 py-4 border-t border-gray-100">
         <div className="flex items-center gap-3 px-2">
-          <div className="w-8 h-8 rounded-full bg-[#0069ff] flex items-center justify-center text-white text-xs font-bold">JD</div>
+          <div className="w-8 h-8 rounded-full bg-[#0069ff] flex items-center justify-center text-white text-xs font-bold">MG</div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">John Doe</p>
-            <p className="text-xs text-gray-400 truncate">john.doe@example.com</p>
+            <p className="text-sm font-medium text-gray-900 truncate">Mragakshi Garg</p>
+            <p className="text-xs text-gray-400 truncate">mragakshi@schedulr.com</p>
           </div>
         </div>
       </div>
