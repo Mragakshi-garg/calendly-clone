@@ -74,7 +74,17 @@ exports.updateEventType = async (req, res, next) => {
 exports.deleteEventType = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id, 10);
-    await prisma.eventType.delete({ where: { id } });
+
+    // Delete meetings first
+    await prisma.meeting.deleteMany({
+      where: { eventTypeId: id }
+    });
+
+    // Then delete event type
+    await prisma.eventType.delete({
+      where: { id }
+    });
+
     res.json({ success: true });
   } catch (error) {
     next(error);
