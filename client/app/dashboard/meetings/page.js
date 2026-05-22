@@ -20,7 +20,13 @@ export default function MeetingsPage() {
     try {
       const r = await axios.get(`${API}?status=${tab}`);
       // Only show CONFIRMED for upcoming
-      setMeetings(r.data.filter(m => tab === 'past' || m.status === 'UPCOMING'));
+      setMeetings(
+  r.data.filter(m =>
+    tab === 'past'
+      ? m.status !== 'UPCOMING'
+      : m.status === 'CONFIRMED' || m.status === 'UPCOMING'
+  )
+);
     } catch { toast.error('Failed to load meetings'); }
     finally { setLoading(false); }
   }
