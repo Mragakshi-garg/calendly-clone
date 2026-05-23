@@ -16,7 +16,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useParams,  useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import axios from 'axios';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -184,25 +184,12 @@ export default function BookingPage() {
 
     setSubmitting(true);
     try {
-      if (rescheduleId) {
-
-  await axios.put(
-    `${API_URL}/bookings/${rescheduleId}/reschedule`,
-    {
-      startTime: buildStartDate().toISOString(),
-    }
-  );
-
-} else {
-
-  await axios.post(`${API_URL}/bookings`, {
-    eventTypeId: eventType.id,
-    inviteeName: formData.name,
-    inviteeEmail: formData.email,
-    startTime: buildStartDate().toISOString(),
-  });
-
-}
+      await axios.post(`${API_URL}/bookings`, {
+        eventTypeId:  eventType.id,
+        inviteeName:  formData.name,
+        inviteeEmail: formData.email,
+        startTime:    buildStartDate().toISOString(),
+      });
       toast.success('Meeting confirmed! Check your inbox.');
       setStep(3);
     } catch (err) {
